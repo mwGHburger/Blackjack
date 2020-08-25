@@ -7,39 +7,7 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            // CREATE CARD DECK
-            List<string> suits = new List<string> {
-                "DIAMOND",
-                "HEARTS",
-                "CLUBS",
-                "SPADE"
-            };
-
-            List<string> ranks = new List<string> {
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "JACK",
-                "QUEEN",
-                "KING",
-                "ACE"
-            };
-
-            List<List<string>> cardDeck = new List<List<string>>();
-
-            foreach (string rank in ranks)
-            {
-                foreach (string suit in suits)
-                {
-                    cardDeck.Add(new List<string> {rank, suit});
-                }
-            }
+            var cardDeck = Deck.CreateDeck();
 
             Console.WriteLine($"Deck size is {cardDeck.Count}");
 
