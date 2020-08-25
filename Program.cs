@@ -20,7 +20,6 @@ namespace Blackjack
 
             List<List<string>> dealerHand = new List<List<string>>();
             int dealerScore;
-            
 
             // PICK CARD AND ADD TO HAND
             System.Console.WriteLine("Dealing First card to PLAYER...");
@@ -102,7 +101,6 @@ namespace Blackjack
                 return;
             }
 
-
             // DEALER'S TURN
             while (dealerScore < 21)
             {
@@ -123,7 +121,6 @@ namespace Blackjack
                     System.Console.WriteLine("DEALER can decide to stay...");
                     break;
                 }
-
             }
 
             if (dealerScore > 21) {
@@ -146,7 +143,6 @@ namespace Blackjack
             {
                 Console.WriteLine($"The dealer wins! {dealerScore} to {playerScore}.");
             }
-
         }
 
         private static int dealCard(int deckSize, Random obj)
@@ -161,7 +157,6 @@ namespace Blackjack
             {
                 cardList.Add($"[{card[0]}, {card[1]}]");
             }
-            
             string display = $"[{string.Join(",", cardList)}]";
             return display;
         }
