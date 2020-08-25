@@ -1,0 +1,12 @@
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.csprojAssemblyReference.cache
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.AssemblyInfoInputs.cache
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.AssemblyInfo.cs
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.csproj.CoreCompileInputs.cache
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/bin/Debug/netcoreapp3.1/Blackjack.deps.json
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/bin/Debug/netcoreapp3.1/Blackjack.runtimeconfig.json
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/bin/Debug/netcoreapp3.1/Blackjack.runtimeconfig.dev.json
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/bin/Debug/netcoreapp3.1/Blackjack.dll
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/bin/Debug/netcoreapp3.1/Blackjack.pdb
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.dll
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.pdb
+/Users/Michael.Wang/Desktop/MYOB/Reference Kata/Foundational/Blackjack/obj/Debug/netcoreapp3.1/Blackjack.genruntimeconfig.cache
