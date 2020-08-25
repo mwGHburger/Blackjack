@@ -46,29 +46,48 @@ namespace Blackjack
             // PLAYER'S TURN
             List<List<string>> playerHand = new List<List<string>>();
             Random rnd = new Random();
-            // PICK 2 CARDS AND ADD TO HAND
-            int firstCardPosition = rnd.Next(52);
-            playerHand.Add(new List<string> {cardDeck[firstCardPosition][0], cardDeck[firstCardPosition][1]});
-            System.Console.WriteLine($"Player hand is size {playerHand.Count}");
-            System.Console.WriteLine($"Current hand is [{playerHand[0][0]},{playerHand[0][1]}]");
-            // List<string> firstCard = cardDeck[firstCardPosition];
-            // System.Console.WriteLine($"Selecting first card at position {firstCardPosition}");
-            // System.Console.WriteLine($"Your first card is [{firstCard[0]}, {firstCard[1]}]");
-            cardDeck.RemoveAt(firstCardPosition);
+            int playerScore;
 
-            int secondCardPosition = rnd.Next(52);
+            // PICK CARD AND ADD TO HAND
+            System.Console.WriteLine("Dealing First card to player...");
+            int firstCardPosition = dealCard(cardDeck.Count, rnd);
             playerHand.Add(new List<string> {cardDeck[firstCardPosition][0], cardDeck[firstCardPosition][1]});
-            System.Console.WriteLine($"Player hand is size {playerHand.Count}");
-            System.Console.WriteLine($"Current hand is [{playerHand[1][0]},{playerHand[1][1]}]");
-            // List<string> secondCard = cardDeck[secondCardPosition];
-            // System.Console.WriteLine($"Selecting second card at position {secondCardPosition}");
-            // System.Console.WriteLine($"Your second card is [{secondCard[0]}, {secondCard[1]}]");
+            // REMOVE CARD FROM DECK
+            cardDeck.RemoveAt(firstCardPosition);
+            // DISPLAY HAND
+            System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
+
+            System.Console.WriteLine("\n");
+
+            // PICK UP CARD AND ADD TO HAND
+            System.Console.WriteLine("Dealing Second card to player...");
+            int secondCardPosition = dealCard(cardDeck.Count, rnd);
+            playerHand.Add(new List<string> {cardDeck[firstCardPosition][0], cardDeck[firstCardPosition][1]});
+            System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
+            // REMOVE CARD FROM DECK
             cardDeck.RemoveAt(secondCardPosition);
             
             System.Console.WriteLine(cardDeck.Count);
+            
+
             // DEALER'S TURN
+        }
 
+        private static int dealCard(int deckSize, Random obj)
+        {
+            return obj.Next(deckSize);
+        }
 
+        private static string displayHand(List<List<string>> cardHand)
+        {
+            List<string> cardList = new List<string>();
+            foreach(List<string> card in cardHand)
+            {
+                cardList.Add($"[{card[0]}, {card[1]}]");
+            }
+            
+            string display = $"[{string.Join(",", cardList)}]";
+            return display;
         }
     }
 }
