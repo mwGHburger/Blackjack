@@ -40,20 +40,23 @@ namespace Blackjack
                     cardDeck.Add(new List<string> {rank, suit});
                 }
             }
-            
+
             Console.WriteLine($"Deck size is {cardDeck.Count}");
 
             // PLAYER'S TURN
             List<List<string>> playerHand = new List<List<string>>();
             Random rnd = new Random();
             int playerScore;
+            int deckPosition;
 
             // PICK CARD AND ADD TO HAND
             System.Console.WriteLine("Dealing First card to player...");
-            int firstCardPosition = dealCard(cardDeck.Count, rnd);
-            playerHand.Add(new List<string> {cardDeck[firstCardPosition][0], cardDeck[firstCardPosition][1]});
+
+            deckPosition = dealCard(cardDeck.Count, rnd);
+            System.Console.WriteLine($"Deck position at {deckPosition}");
+            playerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
             // REMOVE CARD FROM DECK
-            cardDeck.RemoveAt(firstCardPosition);
+            cardDeck.RemoveAt(deckPosition);
             // DISPLAY HAND
             System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
             System.Console.WriteLine($"Player score is {calculateScore(playerHand)}");
@@ -61,11 +64,12 @@ namespace Blackjack
 
             // PICK UP CARD AND ADD TO HAND
             System.Console.WriteLine("Dealing Second card to player...");
-            int secondCardPosition = dealCard(cardDeck.Count, rnd);
-            playerHand.Add(new List<string> {cardDeck[firstCardPosition][0], cardDeck[firstCardPosition][1]});
+            deckPosition = dealCard(cardDeck.Count, rnd);
+            System.Console.WriteLine($"Deck position at {deckPosition}");
+            playerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
             System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
             // REMOVE CARD FROM DECK
-            cardDeck.RemoveAt(secondCardPosition);
+            cardDeck.RemoveAt(deckPosition);
             
             playerScore = calculateScore(playerHand);
             
@@ -83,6 +87,7 @@ namespace Blackjack
                     List<string> drawnCard =  cardDeck[cardPosition];
                     Console.WriteLine($"You draw [{drawnCard[0]}, {drawnCard[1]}]");
                     playerHand.Add(new List<string> {cardDeck[cardPosition][0], cardDeck[cardPosition][1]});
+                    cardDeck.RemoveAt(cardPosition);
                     playerScore = calculateScore(playerHand);
                 }
                 else
@@ -91,7 +96,14 @@ namespace Blackjack
                 }
             }
 
+            // CHECK FOR BUST
+            if (playerScore > 21) {
+                Console.WriteLine($"You are currently at a Bust!\nwith the hand {displayHand(playerHand)}");
+            }
+
+
             // DEALER'S TURN
+
         }
 
         private static int dealCard(int deckSize, Random obj)
@@ -120,7 +132,7 @@ namespace Blackjack
             }
             return total;
         }
-
+        
         private static int determineCardValue(List<string> card, int total)
         {
             int cardValue = 0;
