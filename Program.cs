@@ -10,7 +10,6 @@ namespace Blackjack
             var cardDeck = Deck.CreateDeck();
 
             Console.WriteLine($"Deck size is {cardDeck.Count}\n");
-
             
             // DEAL TO BOTH PLAYER AND DEALER
             Random rnd = new Random();
