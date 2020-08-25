@@ -67,9 +67,29 @@ namespace Blackjack
             // REMOVE CARD FROM DECK
             cardDeck.RemoveAt(secondCardPosition);
             
-            System.Console.WriteLine(cardDeck.Count);
+            playerScore = calculateScore(playerHand);
             
-            System.Console.WriteLine($"Player score is {calculateScore(playerHand)}");
+            System.Console.WriteLine($"Player score is {playerScore}");
+            System.Console.WriteLine($"Deck size is {cardDeck.Count}");
+
+            while (playerScore < 21)
+            {
+                Console.WriteLine($"You are currently at {playerScore}\nwith the hand {displayHand(playerHand)}");
+                Console.Write("\nHit or stay? (Hit = 1, Stay = 0): ");
+                string playerInput = Console.ReadLine();
+                if (playerInput == "1")
+                {
+                    int cardPosition = dealCard(cardDeck.Count, rnd);
+                    List<string> drawnCard =  cardDeck[cardPosition];
+                    Console.WriteLine($"You draw [{drawnCard[0]}, {drawnCard[1]}]");
+                    playerHand.Add(new List<string> {cardDeck[cardPosition][0], cardDeck[cardPosition][1]});
+                    playerScore = calculateScore(playerHand);
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             // DEALER'S TURN
         }
