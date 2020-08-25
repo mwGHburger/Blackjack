@@ -56,7 +56,7 @@ namespace Blackjack
             cardDeck.RemoveAt(firstCardPosition);
             // DISPLAY HAND
             System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
-
+            System.Console.WriteLine($"Player score is {calculateScore(playerHand)}");
             System.Console.WriteLine("\n");
 
             // PICK UP CARD AND ADD TO HAND
@@ -69,6 +69,7 @@ namespace Blackjack
             
             System.Console.WriteLine(cardDeck.Count);
             
+            System.Console.WriteLine($"Player score is {calculateScore(playerHand)}");
 
             // DEALER'S TURN
         }
@@ -88,6 +89,41 @@ namespace Blackjack
             
             string display = $"[{string.Join(",", cardList)}]";
             return display;
+        }
+
+        private static int calculateScore(List<List<string>> playerHand)
+        {
+            int total = 0;
+            foreach(List<string> card in playerHand)
+            {
+                total += determineCardValue(card, total);
+            }
+            return total;
+        }
+
+        private static int determineCardValue(List<string> card, int total)
+        {
+            int cardValue = 0;
+            if (card[0] == "JACK" || card[0] == "QUEEN" || card[0] == "KING")
+            {
+                cardValue += 10;
+            }
+            else if (card[0] == "ACE")
+            {
+                if (total < 11) {
+                    cardValue += 11;
+                }
+                else
+                {
+                    cardValue += 1;
+                }
+            }
+            else
+            {
+                System.Console.WriteLine($"Converting {card[0]} to number...");
+                cardValue = Convert.ToInt32(card[0]);
+            }
+            return cardValue;
         }
     }
 }
