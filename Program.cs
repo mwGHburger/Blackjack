@@ -9,41 +9,71 @@ namespace Blackjack
         {
             var cardDeck = Deck.CreateDeck();
 
-            Console.WriteLine($"Deck size is {cardDeck.Count}");
+            Console.WriteLine($"Deck size is {cardDeck.Count}\n");
 
-            // PLAYER'S TURN
-            List<List<string>> playerHand = new List<List<string>>();
+            
+            // DEAL TO BOTH PLAYER AND DEALER
             Random rnd = new Random();
-            int playerScore;
             int deckPosition;
 
-            // PICK CARD AND ADD TO HAND
-            System.Console.WriteLine("Dealing First card to player...");
+            List<List<string>> playerHand = new List<List<string>>();
+            int playerScore;
 
+            List<List<string>> dealerHand = new List<List<string>>();
+            int dealerScore;
+            
+
+            // PICK CARD AND ADD TO HAND
+            System.Console.WriteLine("Dealing First card to PLAYER...");
             deckPosition = dealCard(cardDeck.Count, rnd);
             System.Console.WriteLine($"Deck position at {deckPosition}");
             playerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
+            System.Console.WriteLine($"PLAYER picked up [{cardDeck[deckPosition][0]}, {cardDeck[deckPosition][1]}]\n");
+
             // REMOVE CARD FROM DECK
             cardDeck.RemoveAt(deckPosition);
-            // DISPLAY HAND
-            System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
-            System.Console.WriteLine($"Player score is {calculateScore(playerHand)}");
-            System.Console.WriteLine("\n");
+            
+            // PICK CARD AND ADD TO HAND
+            System.Console.WriteLine("Dealing First card to DEALER...");
+            deckPosition = dealCard(cardDeck.Count, rnd);
+            System.Console.WriteLine($"Deck position at {deckPosition}");
+            dealerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
+            System.Console.WriteLine($"DEALER picked up [{cardDeck[deckPosition][0]}, {cardDeck[deckPosition][1]}]\n");
+
+            // REMOVE CARD FROM DECK
+            cardDeck.RemoveAt(deckPosition);
 
             // PICK UP CARD AND ADD TO HAND
-            System.Console.WriteLine("Dealing Second card to player...");
+            System.Console.WriteLine("Dealing Second card to PLAYER...");
             deckPosition = dealCard(cardDeck.Count, rnd);
             System.Console.WriteLine($"Deck position at {deckPosition}");
             playerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
-            System.Console.WriteLine($"Current hand is {displayHand(playerHand)}");
+            System.Console.WriteLine($"PLAYER picked up [{cardDeck[deckPosition][0]}, {cardDeck[deckPosition][1]}]\n");
             // REMOVE CARD FROM DECK
             cardDeck.RemoveAt(deckPosition);
+
+            // PICK CARD AND ADD TO HAND
+            System.Console.WriteLine("Dealing Second card to DEALER...");
+            deckPosition = dealCard(cardDeck.Count, rnd);
+            System.Console.WriteLine($"Deck position at {deckPosition}");
+            dealerHand.Add(new List<string> {cardDeck[deckPosition][0], cardDeck[deckPosition][1]});
+            System.Console.WriteLine($"DEALER picked up [{cardDeck[deckPosition][0]}, {cardDeck[deckPosition][1]}]\n");
+            
+            // REMOVE CARD FROM DECK
+            cardDeck.RemoveAt(deckPosition);
+
+            // DEBUG
+            System.Console.WriteLine($"PLAYER: current hand is {displayHand(playerHand)}");
+            System.Console.WriteLine($"DEALER: current hand is {displayHand(dealerHand)}");
             
             playerScore = calculateScore(playerHand);
+            dealerScore = calculateScore(dealerHand);
             
-            System.Console.WriteLine($"Player score is {playerScore}");
-            System.Console.WriteLine($"Deck size is {cardDeck.Count}");
-
+            System.Console.WriteLine($"PLAYER score is {playerScore}");
+            System.Console.WriteLine($"DEALER score is {dealerScore}");
+            
+            
+            // PLAYER'S TURN
             while (playerScore < 21)
             {
                 Console.WriteLine($"You are currently at {playerScore}\nwith the hand {displayHand(playerHand)}");
@@ -51,6 +81,7 @@ namespace Blackjack
                 string playerInput = Console.ReadLine();
                 if (playerInput == "1")
                 {
+                    // DEAL CARD
                     int cardPosition = dealCard(cardDeck.Count, rnd);
                     List<string> drawnCard =  cardDeck[cardPosition];
                     Console.WriteLine($"You draw [{drawnCard[0]}, {drawnCard[1]}]");
@@ -66,11 +97,56 @@ namespace Blackjack
 
             // CHECK FOR BUST
             if (playerScore > 21) {
+                System.Console.WriteLine($"Deck size is {cardDeck.Count}");
                 Console.WriteLine($"You are currently at a Bust!\nwith the hand {displayHand(playerHand)}");
+                Console.WriteLine("The dealer wins!");
+                return;
             }
 
 
             // DEALER'S TURN
+            while (dealerScore < 21)
+            {
+                Console.WriteLine($"Dealer is at {dealerScore}\nwith the hand {displayHand(dealerHand)}");
+                if (dealerScore < 17)
+                {
+                    System.Console.WriteLine("DEALER hits himself...");
+                    int cardPosition = dealCard(cardDeck.Count, rnd);
+                    List<string> drawnCard =  cardDeck[cardPosition];
+                    Console.WriteLine($"Dealer draws [{drawnCard[0]}, {drawnCard[1]}]");
+                    dealerHand.Add(new List<string> {cardDeck[cardPosition][0], cardDeck[cardPosition][1]});
+                    cardDeck.RemoveAt(cardPosition);
+                    dealerScore = calculateScore(dealerHand);
+                    System.Console.WriteLine($"DEALER's score is {dealerScore}");
+                }
+                else
+                {
+                    System.Console.WriteLine("DEALER can decide to stay...");
+                    break;
+                }
+
+            }
+
+            if (dealerScore > 21) {
+                System.Console.WriteLine($"Deck size is {cardDeck.Count}");
+                Console.WriteLine($"Dealer busts!\nwith the hand {displayHand(dealerHand)}");
+                Console.WriteLine("The player wins!");
+                return;
+            }
+
+            // TIE
+            if (playerScore == dealerScore)
+            {
+                System.Console.WriteLine("Tie game! Both player and dealer have the same score!");
+            } 
+            else if (playerScore > dealerScore)
+            {
+                Console.WriteLine($"The player wins! {playerScore} to {dealerScore}.");
+            }
+            else
+            {
+                Console.WriteLine($"The dealer wins! {dealerScore} to {playerScore}.");
+            }
 
         }
 
@@ -120,7 +196,6 @@ namespace Blackjack
             }
             else
             {
-                System.Console.WriteLine($"Converting {card[0]} to number...");
                 cardValue = Convert.ToInt32(card[0]);
             }
             return cardValue;
