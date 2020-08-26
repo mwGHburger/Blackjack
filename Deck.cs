@@ -70,7 +70,7 @@ namespace Blackjack
             // PICK CARD AND ADD TO HAND
             System.Console.WriteLine($"{player.Name} hits...");
             System.Console.WriteLine($"Dealing card to {player.Name}...");
-            int positionInDeck = DealCard(this.Size, rnd);
+            int positionInDeck = PickRandomCard(this.Size, rnd);
             System.Console.WriteLine($"Deck position at {positionInDeck}");
             player.AddCardToHand(this.Cards[positionInDeck]);
             System.Console.WriteLine($"{player.Name} draws [{this.Cards[positionInDeck][0]}, {this.Cards[positionInDeck][1]}]");
@@ -81,15 +81,25 @@ namespace Blackjack
             // UPDATE PLAYER SCORE
             player.CalculateScore();
         }
-
-        // TODO: IMPLEMENT - OPTIONAL
-        // private List<string> SelectCardAtPosition(Deck cardDeck, int cardPosition)
-        // {
-        //     return cardDeck.Cards[cardPosition];
-        // } 
-        private int DealCard(int deckSize, Random obj)
+        private int PickRandomCard(int deckSize, Random obj)
         {
             return obj.Next(deckSize);
         }
     }
 }
+
+// DEBUGGING COMMENTS:
+// Random rnd = new Random(); // TODO: CAN PROBABLY MOVE THIS OUT
+// // PICK CARD AND ADD TO HAND
+// System.Console.WriteLine($"{player.Name} hits...");
+// System.Console.WriteLine($"Dealing card to {player.Name}...");
+// int positionInDeck = PickRandomCard(this.Size, rnd);
+// System.Console.WriteLine($"Deck position at {positionInDeck}");
+// player.AddCardToHand(this.Cards[positionInDeck]);
+// System.Console.WriteLine($"{player.Name} draws [{this.Cards[positionInDeck][0]}, {this.Cards[positionInDeck][1]}]");
+// // REMOVE CARD FROM DECK
+// System.Console.WriteLine("Removing Card from the Deck");
+// this.Cards.RemoveAt(positionInDeck);
+// Console.WriteLine($"Deck size is now {this.Size}\n");
+// // UPDATE PLAYER SCORE
+// player.CalculateScore();

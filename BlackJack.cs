@@ -9,9 +9,39 @@ namespace Blackjack
         {}
 
         // METHODS
-        public void StartGame()
+        public static void StartGame()
         {
-            // DealTwoCardsToEachPlayer()
+            BlackJack blackJack = new BlackJack();
+            var cardDeck = new Deck();
+            Player newPlayer = new Player("New Player");
+            Player dealer = new Player("Dealer");
+
+            // DEAL FIRST CARD TO NEW PLAYER AND DEALER 
+            blackJack.DealTwoCardsToEachPlayer(cardDeck, newPlayer, dealer);
+
+            System.Console.WriteLine($"Game starts from here...\n");
+            
+            // PLAYER'S TURN
+            blackJack.BeginPlayerTurn(newPlayer, cardDeck);
+
+            // CHECK FOR BUST
+            if (blackJack.CheckForBust(newPlayer))
+            {
+                return;
+            }
+
+            // DEALER'S TURN
+            blackJack.BeginDealerTurn(dealer, cardDeck);
+
+            // CHECK FOR BUST
+            if(blackJack.CheckForBust(dealer))
+            {
+                return;
+            }
+
+            // TIE
+            blackJack.CheckScores(newPlayer, dealer);
+            System.Console.WriteLine($"Deck size is {cardDeck.Size}");
         }
 
         public void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
@@ -104,3 +134,9 @@ namespace Blackjack
 
     }
 }
+
+// DEBUGGING COMMENTS
+// System.Console.WriteLine($"PLAYER: current hand is {newPlayer.DisplayCurrentHand()}");
+// System.Console.WriteLine($"DEALER: current hand is {dealer.DisplayCurrentHand()}");
+// System.Console.WriteLine($"PLAYER score is {newPlayer.Score}");
+// System.Console.WriteLine($"DEALER score is {dealer.Score}");
