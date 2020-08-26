@@ -83,10 +83,10 @@ namespace Blackjack
         }
 
         // TODO: IMPLEMENT - OPTIONAL
-        private List<string> SelectCardAtPosition(Deck cardDeck, int cardPosition)
-        {
-            return cardDeck.Cards[cardPosition];
-        } 
+        // private List<string> SelectCardAtPosition(Deck cardDeck, int cardPosition)
+        // {
+        //     return cardDeck.Cards[cardPosition];
+        // } 
         private int DealCard(int deckSize, Random obj)
         {
             return obj.Next(deckSize);
