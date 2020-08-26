@@ -35,7 +35,7 @@ namespace Blackjack
             List<string> cardList = new List<string>();
             foreach(List<string> card in this.CardHand)
             {
-                cardList.Add($"[{card[0]}, {card[1]}]");
+                cardList.Add($"[{card[0]}, '{card[1]}']");
             }
             string display = $"[{string.Join(",", cardList)}]";
             return display;
