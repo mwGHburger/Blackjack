@@ -4,6 +4,23 @@ namespace Blackjack
 {
     public class Deck
     {
+        // CONSTRUCTOR
+        public Deck()
+        {
+            this.Cards = new List<List<string>>(CreateDeck());
+            this.Size = this.Cards.Count;
+        }
+
+        // PROPERTIES
+        public List<List<string>> Cards
+        { get; set; }
+
+        public int Size
+        { 
+            get { return this.Cards.Count; } 
+            private set { this.Size = value; }
+        }
+
         public static List<List<string>> CreateDeck()
         {
             List<string> suits = new List<string> {
