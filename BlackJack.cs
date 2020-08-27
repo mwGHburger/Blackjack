@@ -9,32 +9,31 @@ namespace Blackjack
         {}
 
         // METHODS
-        public static void StartGame()
+        public void StartGame()
         {
-            BlackJack blackJack = new BlackJack();
             var cardDeck = new Deck();
             Player newPlayer = new Player("You");
             Player dealer = new Player("Dealer");
 
-            blackJack.DealTwoCardsToEachPlayer(cardDeck, newPlayer, dealer);
+            this.DealTwoCardsToEachPlayer(cardDeck, newPlayer, dealer);
 
             System.Console.WriteLine($"Game starts from here...\n");
             
-            blackJack.BeginPlayerTurn(newPlayer, cardDeck);
+            this.BeginPlayerTurn(newPlayer, cardDeck);
 
-            if (blackJack.CheckForBust(newPlayer))
+            if (this.CheckForBust(newPlayer))
             {
                 return;
             }
 
-            blackJack.BeginDealerTurn(dealer, cardDeck);
+            this.BeginDealerTurn(dealer, cardDeck);
 
-            if(blackJack.CheckForBust(dealer))
+            if(this.CheckForBust(dealer))
             {
                 return;
             }
 
-            blackJack.CheckScores(newPlayer, dealer);
+            this.CheckScores(newPlayer, dealer);
         }
 
         public void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)

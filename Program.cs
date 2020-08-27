@@ -8,7 +8,8 @@ namespace Blackjack
         static void Main(string[] args)
         {   
             System.Console.WriteLine("Starting BlackJack Game...\n");
-            BlackJack.StartGame();
+            BlackJack blackJack = new BlackJack();
+            blackJack.StartGame();
         }
 
     }
