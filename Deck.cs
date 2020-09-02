@@ -5,6 +5,14 @@ namespace Blackjack
 {
     public class Deck
     {
+        // ENUMS
+        enum Suits {
+                DIAMOND,
+                HEARTS,
+                SPADES,
+                CLUBS
+            };
+
         // CONSTRUCTOR
         public Deck()
         {
@@ -26,6 +34,7 @@ namespace Blackjack
             private set {this.size = value; }
         }
 
+        //private List<List<string>> CreateNewDeck()
         private List<List<string>> CreateNewDeck()
         {
             List<string> suits = new List<string> {
@@ -64,19 +73,36 @@ namespace Blackjack
             return cardDeck;
         }
 
-        public void DealCardTo(Player player)
+        // TODO: NOT A FAN THAT THIS METHOD RETURNS INT
+        public int DealCardTo(Player player)
         {
             Random rnd = new Random(); // TODO: CAN PROBABLY MOVE THIS OUT
 
             int positionInDeck = PickRandomCard(this.Size, rnd);
             player.AddCardToHand(this.Cards[positionInDeck]);
-            System.Console.WriteLine($"{player.Name} draw [{this.Cards[positionInDeck][0]}, '{this.Cards[positionInDeck][1]}']\n");
-            this.Cards.RemoveAt(positionInDeck);
-            player.CalculateScore();
+            return positionInDeck;
         }
         private int PickRandomCard(int deckSize, Random obj)
         {
             return obj.Next(deckSize);
+        }
+
+        public static int DetermineCardValue(List<string> card, int total)
+        {
+            int cardValue = 0;
+            if (card.Contains("JACK") || card.Contains("QUEEN") || card.Contains("KING"))
+            {
+                cardValue += 10;
+            }
+            else if (card[0] == "ACE")
+            {
+                cardValue += total < 11 ? 11 : 1;
+            }
+            else
+            {
+                cardValue += Convert.ToInt32(card[0]);
+            }
+            return cardValue;
         }
     }
 }
