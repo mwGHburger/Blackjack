@@ -12,49 +12,56 @@ namespace Blackjack
         public void StartGame()
         {
             var cardDeck = new Deck();
-            Player newPlayer = new Player("You");
+            Player player = new Player("You");
             Player dealer = new Player("Dealer");
 
-            this.DealTwoCardsToEachPlayer(cardDeck, newPlayer, dealer);
+            this.DealTwoCardsToEachPlayer(cardDeck, player, dealer);
 
             System.Console.WriteLine($"Game starts from here...\n");
             
-            this.BeginPlayerTurn(newPlayer, cardDeck);
+            this.BeginPlayerTurn(player, cardDeck);
 
-            if (this.CheckForBust(newPlayer))
+            if (this.IsBust(player))
             {
+                DeclareWinnerFromBust(player);
                 return;
             }
 
             this.BeginDealerTurn(dealer, cardDeck);
 
-            if(this.CheckForBust(dealer))
+            if(this.IsBust(dealer))
             {
+                DeclareWinnerFromBust(dealer);
                 return;
             }
 
-            this.CheckScores(newPlayer, dealer);
+            this.CheckScores(player, dealer);
         }
 
-        public void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
+        private void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
         {
             for(int i = 0; i < 2; i++)
             {
-                cardDeck.DealCardTo(player);
-                cardDeck.DealCardTo(dealer);
+                int positionInDeck = cardDeck.PickRandomCardFromDeck();
+                cardDeck.DealCardTo(player, positionInDeck);
+                cardDeck.Cards.RemoveAt(positionInDeck);
+
+                int positionInDeck2 = cardDeck.PickRandomCardFromDeck();
+                cardDeck.DealCardTo(dealer, positionInDeck2);
+                cardDeck.Cards.RemoveAt(positionInDeck2);
             }
         }
 
-        public void BeginPlayerTurn(Player player, Deck cardDeck)
+        private void BeginPlayerTurn(Player player, Deck cardDeck)
         {
-            while (player.Score < 21)
+            while (player.Score < BUSTNUMBER)
             {
-                Console.WriteLine($"You are currently at {player.Score}\nwith the hand {player.DisplayCurrentHand()}\n");
+                Console.WriteLine($"You are currently at {player.Score}\nwith the hand {player.GetCurrentHand()}\n");
                 Console.Write("Hit or stay? (Hit = 1, Stay = 0): ");
                 string playerInput = Console.ReadLine();
                 if (playerInput == "1")
                 {
-                    cardDeck.DealCardTo(player);
+                    HitPlayer(player, cardDeck);
                 }
                 else
                 {
@@ -63,15 +70,15 @@ namespace Blackjack
             }
         }
 
-        public void BeginDealerTurn(Player player, Deck cardDeck)
+        private void BeginDealerTurn(Player player, Deck cardDeck)
         {
-            while (player.Score < 21)
+            while (player.Score < BUSTNUMBER)
             {
-                Console.WriteLine($"{player.Name} is at {player.Score}\nwith the hand {player.DisplayCurrentHand()}\n");
+                Console.WriteLine($"{player.Name} is at {player.Score}\nwith the hand {player.GetCurrentHand()}\n");
                 if (player.Score < 17)
                 {
                     System.Console.WriteLine("Dealer hits...");
-                    cardDeck.DealCardTo(player);
+                    HitPlayer(player, cardDeck);
                 }
                 else
                 {
@@ -81,44 +88,75 @@ namespace Blackjack
             }
         }
 
-        public bool CheckForBust(Player player)
+        private void HitPlayer(Player player, Deck cardDeck)
         {
-            if(player.Name == "Dealer")
+            int positionInDeck = cardDeck.PickRandomCardFromDeck();
+            cardDeck.DealCardTo(player, positionInDeck);
+            DisplayCardDrawn(player, cardDeck, positionInDeck);
+            cardDeck.Cards.RemoveAt(positionInDeck);
+        }
+
+        private bool IsBust(Player player)
+        {
+            return (player.Score > BUSTNUMBER) ? true : false;
+        }
+
+        private void DeclareWinnerFromBust(Player player)
+        {
+            if (player.Name == "Dealer")
             {
-                if (player.Score > 21) {
-                    Console.WriteLine($"{player.Name} busts!\nwith the hand {player.DisplayCurrentHand()}");
-                    Console.WriteLine("You beat the dealer! Dealer busted.");
-                    return true;
-                }
-                return false;
+                Console.WriteLine($"{player.Name} busts!\nwith the hand {player.GetCurrentHand()}");
+                Console.WriteLine("You beat the dealer! Dealer busted.");
             }
             else
             {
-                if (player.Score > 21) {
-                    Console.WriteLine($"You are currently at a Bust!\nwith the hand {player.DisplayCurrentHand()}");
-                    Console.WriteLine($"Dealer wins! You busted.");
-                    return true;
-                }
-                return false;
+                Console.WriteLine($"You are currently at a Bust!\nwith the hand {player.GetCurrentHand()}");
+                Console.WriteLine($"Dealer wins! You busted.");
             }
-            
         }
 
-        public void CheckScores(Player player, Player dealer)
+        private void DeclareWinner(Player player1, Player player2, bool isTie = false)
+        {
+            if(isTie)
+            {
+                Console.WriteLine($"Tie game! Both player and dealer have the same score! {player1.Score} to {player2.Score}");
+                return;
+            }
+            
+            if (player1.Name == "Dealer")
+            {
+                Console.WriteLine($"Dealer wins! {player2.Score} to {player1.Score}.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"You win! {player1.Score} to {player2.Score}.");
+                return;
+            }
+        }
+
+        private void CheckScores(Player player, Player dealer)
         {
             if (player.Score == dealer.Score)
             {
-                System.Console.WriteLine("Tie game! Both player and dealer have the same score!");
+                DeclareWinner(player, dealer, true);
             } 
             else if (player.Score > dealer.Score)
             {
-                Console.WriteLine($"You win! {player.Score} to {dealer.Score}.");
+                DeclareWinner(player, dealer);
             }
             else
             {
-                Console.WriteLine($"Dealer wins! {dealer.Score} to {player.Score}.");
+                DeclareWinner(dealer, player);
             }
         }
 
+        private void DisplayCardDrawn(Player player, Deck cardDeck, int positionInDeck)
+        {
+            System.Console.WriteLine($"{player.Name} draw [{cardDeck.Cards[positionInDeck].Rank}, '{cardDeck.Cards[positionInDeck].Suit}']\n");
+        }
+
+        // CONSTANT
+        private const int BUSTNUMBER = 21;
     }
 }

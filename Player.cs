@@ -9,7 +9,8 @@ namespace Blackjack
         public Player(string name)
         {
             this.Name = name;
-            this.CardHand = new List<List<string>>();
+            this.CardHand = new List<Card>();
+            this.Score = 0;
         }
 
         // PROPERTIES
@@ -19,64 +20,46 @@ namespace Blackjack
             private set;
         }
 
-        public List<List<string>> CardHand
+        public List<Card> CardHand
         {
             get;
         }
 
         public int Score
         {
-            get; set;
+            get 
+            {
+                return CalculateScore();
+            }
+
+            private set{}
         }
 
         // METHODS
-        public string DisplayCurrentHand()
+        public string GetCurrentHand()
         {
             List<string> cardList = new List<string>();
-            foreach(List<string> card in this.CardHand)
+            foreach(Card card in this.CardHand)
             {
-                cardList.Add($"[{card[0]}, '{card[1]}']");
+                cardList.Add($"[{card.Rank}, '{card.Suit}']");
             }
-            string display = $"[{string.Join(",", cardList)}]";
-            return display;
+            string currentHand = $"[{string.Join(",", cardList)}]";
+            return currentHand;
         }
-        public void CalculateScore()
+        public int CalculateScore()
         {
             int total = 0;
-            foreach(List<string> card in this.CardHand)
+            foreach(Card card in this.CardHand)
             {
-                total += DetermineCardValue(card, total);
+                total += Card.DetermineCardValue(card, total);
             }
-            this.Score = total;
+            return total;
         }
 
-        public void AddCardToHand(List<string> card)
+        public void AddCardToHand(Card card)
         {
-            this.CardHand.Add(new List<string> {card[0], card[1]});
+            this.CardHand.Add(card);
         }
 
-        private int DetermineCardValue(List<string> card, int total)
-        {
-            int cardValue = 0;
-            if (card[0] == "JACK" || card[0] == "QUEEN" || card[0] == "KING")
-            {
-                cardValue += 10;
-            }
-            else if (card[0] == "ACE")
-            {
-                if (total < 11) {
-                    cardValue += 11;
-                }
-                else
-                {
-                    cardValue += 1;
-                }
-            }
-            else
-            {
-                cardValue = Convert.ToInt32(card[0]);
-            }
-            return cardValue;
-        }
     }
 }
