@@ -42,10 +42,12 @@ namespace Blackjack
         {
             for(int i = 0; i < 2; i++)
             {
-                int positionInDeck = cardDeck.DealCardTo(player);
+                int positionInDeck = cardDeck.PickRandomCardFromDeck();
+                cardDeck.DealCardTo(player, positionInDeck);
                 cardDeck.Cards.RemoveAt(positionInDeck);
 
-                int positionInDeck2 = cardDeck.DealCardTo(dealer);
+                int positionInDeck2 = cardDeck.PickRandomCardFromDeck();
+                cardDeck.DealCardTo(dealer, positionInDeck2);
                 cardDeck.Cards.RemoveAt(positionInDeck2);
             }
         }
@@ -88,19 +90,15 @@ namespace Blackjack
 
         private void HitPlayer(Player player, Deck cardDeck)
         {
-            int positionInDeck = cardDeck.DealCardTo(player);
-            //player.CalculateScore();
+            int positionInDeck = cardDeck.PickRandomCardFromDeck();
+            cardDeck.DealCardTo(player, positionInDeck);
             DisplayCardDrawn(player, cardDeck, positionInDeck);
             cardDeck.Cards.RemoveAt(positionInDeck);
-            System.Console.WriteLine($"Deck size is {cardDeck.Size}");
         }
 
         private bool IsBust(Player player)
         {
-            if (player.Score > BUSTNUMBER) {
-                return true;
-            }
-            return false;
+            return (player.Score > BUSTNUMBER) ? true : false;
         }
 
         private void DeclareWinnerFromBust(Player player)
@@ -155,7 +153,7 @@ namespace Blackjack
 
         private void DisplayCardDrawn(Player player, Deck cardDeck, int positionInDeck)
         {
-            System.Console.WriteLine($"{player.Name} draw [{cardDeck.Cards[positionInDeck][0]}, '{cardDeck.Cards[positionInDeck][1]}']\n");
+            System.Console.WriteLine($"{player.Name} draw [{cardDeck.Cards[positionInDeck].Rank}, '{cardDeck.Cards[positionInDeck].Suit}']\n");
         }
 
         // CONSTANT
