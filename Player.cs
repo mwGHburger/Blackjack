@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    public class Player
+    public abstract class Player
     {
         public Player()
         {
-            this.Name = "You";
             this.CardHand = new List<Card>();
             this.Score = 0;
         }
@@ -70,23 +69,6 @@ namespace Blackjack
             this.CardHand.Add(card);
         }
 
-        public virtual void PlayTurn(Deck cardDeck)
-        {
-            while (Score < BlackJack.BUSTNUMBER)
-            {
-                Console.WriteLine($"You are currently at {Score}\nwith the hand {GetCurrentHand()}\n");
-                Console.Write("Hit or stay? (Hit = 1, Stay = 0): ");
-                string playerInput = Console.ReadLine();
-                if (playerInput == "1")
-                {
-                    BlackJack.HitPlayer(this, cardDeck);
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-
+        public abstract void PlayTurn(Deck cardDeck);
     }
 }

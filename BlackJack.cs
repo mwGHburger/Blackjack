@@ -12,7 +12,7 @@ namespace Blackjack
         {
             var cardDeck = new Deck();
             var playerList = new List<Player>();
-            Player humanPlayer = new Player();
+            HumanPlayer humanPlayer = new HumanPlayer();
             Dealer dealer = new Dealer();
             playerList.Add(humanPlayer);
             playerList.Add(dealer);
@@ -29,7 +29,7 @@ namespace Blackjack
             this.CheckScores(humanPlayer, dealer);
         }
 
-        private void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
+        private void DealTwoCardsToEachPlayer(Deck cardDeck, HumanPlayer player, Dealer dealer)
         {
             for(int i = 0; i < 2; i++)
             {
@@ -70,39 +70,35 @@ namespace Blackjack
             }
         }
 
-        private void DeclareWinner(Player player1, Player player2, bool isTie = false)
+        private void DeclareWinner(HumanPlayer humanPlayer, Dealer dealer, bool isTie = false)
         {
             if(isTie)
             {
-                Console.WriteLine($"Tie game! Both player and dealer have the same score! {player1.Score} to {player2.Score}");
+                Console.WriteLine($"Tie game! Both player and dealer have the same score! {humanPlayer.Score} to {dealer.Score}");
                 return;
             }
             
-            if (player1.Name == "Dealer")
+            if (humanPlayer.Score < dealer.Score)
             {
-                Console.WriteLine($"Dealer wins! {player2.Score} to {player1.Score}.");
+                Console.WriteLine($"Dealer wins! {dealer.Score} to {humanPlayer.Score}.");
                 return;
             }
             else
             {
-                Console.WriteLine($"You win! {player1.Score} to {player2.Score}.");
+                Console.WriteLine($"You win! {humanPlayer.Score} to {dealer.Score}.");
                 return;
             }
         }
 
-        private void CheckScores(Player player, Player dealer)
+        private void CheckScores(HumanPlayer player, Dealer dealer)
         {
             if (player.Score == dealer.Score)
             {
                 DeclareWinner(player, dealer, true);
             } 
-            else if (player.Score > dealer.Score)
-            {
-                DeclareWinner(player, dealer);
-            }
             else
             {
-                DeclareWinner(dealer, player);
+                DeclareWinner(player, dealer);
             }
         }
 
