@@ -17,6 +17,11 @@ namespace Blackjack
             return card.Rank == ("JACK") || card.Rank == ("QUEEN") || card.Rank == ("KING");
         }
 
+        private static bool CardIsAce(Card card)
+        {
+            return card.Rank == ("ACE");
+        }
+
         public static int DetermineCardValue(Card card, int total)
         {
             int cardValue = 0;
@@ -24,7 +29,7 @@ namespace Blackjack
             {
                 cardValue += 10;
             }
-            else if (card.Rank == "ACE")
+            else if (CardIsAce(card))
             {
                 cardValue += total < 11 ? 11 : 1;
             }
