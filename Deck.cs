@@ -5,14 +5,12 @@ namespace Blackjack
 {
     public class Deck
     {
-        // CONSTRUCTOR
         public Deck()
         {
             this.Cards = new List<Card>(this.CreateNewDeck());
             this.Size = this.Cards.Count;
         }
 
-        // PROPERTIES
         public List<Card> Cards
         { 
             get; 

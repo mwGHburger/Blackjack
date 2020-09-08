@@ -5,7 +5,6 @@ namespace Blackjack
 {
     public class Player
     {
-        // CONSTRUCTOR
         public Player(string name)
         {
             this.Name = name;
@@ -13,7 +12,6 @@ namespace Blackjack
             this.Score = 0;
         }
 
-        // PROPERTIES
         public string Name
         {
             get; 
@@ -35,7 +33,6 @@ namespace Blackjack
             private set{}
         }
 
-        // METHODS
         public string GetCurrentHand()
         {
             List<string> cardList = new List<string>();
@@ -49,9 +46,21 @@ namespace Blackjack
         public int CalculateScore()
         {
             int total = 0;
+            List<Card> aceTracker = new List<Card>();
             foreach(Card card in this.CardHand)
             {
-                total += Card.DetermineCardValue(card, total);
+                if (card.Rank == "ACE")
+                {
+                    aceTracker.Add(card);
+                }
+                else
+                {
+                    total += Card.DetermineCardValue(card, total);
+                }
+            }
+            foreach(Card ace in aceTracker)
+            {
+                total += Card.DetermineCardValue(ace, total);
             }
             return total;
         }

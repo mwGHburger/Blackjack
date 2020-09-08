@@ -4,11 +4,9 @@ namespace Blackjack
 {
     public class BlackJack
     {
-        // CONSTRUCTOR
         public BlackJack()
         {}
 
-        // METHODS
         public void StartGame()
         {
             var cardDeck = new Deck();
@@ -16,8 +14,6 @@ namespace Blackjack
             Player dealer = new Player("Dealer");
 
             this.DealTwoCardsToEachPlayer(cardDeck, player, dealer);
-
-            System.Console.WriteLine($"Game starts from here...\n");
             
             this.BeginPlayerTurn(player, cardDeck);
 
@@ -156,7 +152,6 @@ namespace Blackjack
             System.Console.WriteLine($"{player.Name} draw [{cardDeck.Cards[positionInDeck].Rank}, '{cardDeck.Cards[positionInDeck].Suit}']\n");
         }
 
-        // CONSTANT
         private const int BUSTNUMBER = 21;
     }
 }
