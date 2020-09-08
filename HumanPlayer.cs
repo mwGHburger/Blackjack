@@ -2,30 +2,28 @@ using System;
 
 namespace Blackjack
 {
-    public class Dealer : Player
+    public class HumanPlayer : Player
     {
-        public Dealer()
+        public HumanPlayer()
         {
-            Name = "Dealer";
+            Name = "You";
         }
-
         public override void PlayTurn(Deck cardDeck)
         {
             while (Score < BlackJack.BUSTNUMBER)
             {
-                Console.WriteLine($"{Name} is at {Score}\nwith the hand {GetCurrentHand()}\n");
-                if (Score < 17)
+                Console.WriteLine($"You are currently at {Score}\nwith the hand {GetCurrentHand()}\n");
+                Console.Write("Hit or stay? (Hit = 1, Stay = 0): ");
+                string playerInput = Console.ReadLine();
+                if (playerInput == "1")
                 {
-                    System.Console.WriteLine("Dealer hits...");
                     BlackJack.HitPlayer(this, cardDeck);
                 }
                 else
                 {
-                    System.Console.WriteLine($"{Name} decided to stay...\n");
                     break;
                 }
             }
         }
-
     }
 }

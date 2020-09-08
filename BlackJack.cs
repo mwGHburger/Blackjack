@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Blackjack
 {
@@ -10,30 +11,25 @@ namespace Blackjack
         public void StartGame()
         {
             var cardDeck = new Deck();
-            Player player = new Player();
-            Player dealer = new Dealer();
-            this.DealTwoCardsToEachPlayer(cardDeck, player, dealer);
-            
-            player.BeginTurn(cardDeck);
-
-            if (this.IsBust(player))
+            var playerList = new List<Player>();
+            HumanPlayer humanPlayer = new HumanPlayer();
+            Dealer dealer = new Dealer();
+            playerList.Add(humanPlayer);
+            playerList.Add(dealer);
+            this.DealTwoCardsToEachPlayer(cardDeck, humanPlayer, dealer);
+            foreach(Player player in playerList)
             {
-                DeclareWinnerFromBust(player);
-                return;
+                player.PlayTurn(cardDeck);
+                if (this.IsBust(player))
+                {
+                    DeclareWinnerFromBust(player);
+                    return;
+                }
             }
-
-            dealer.BeginTurn(cardDeck);
-
-            if(this.IsBust(dealer))
-            {
-                DeclareWinnerFromBust(dealer);
-                return;
-            }
-
-            this.CheckScores(player, dealer);
+            this.CheckScores(humanPlayer, dealer);
         }
 
-        private void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
+        private void DealTwoCardsToEachPlayer(Deck cardDeck, HumanPlayer player, Dealer dealer)
         {
             for(int i = 0; i < 2; i++)
             {
@@ -74,39 +70,35 @@ namespace Blackjack
             }
         }
 
-        private void DeclareWinner(Player player1, Player player2, bool isTie = false)
+        private void DeclareWinner(HumanPlayer humanPlayer, Dealer dealer, bool isTie = false)
         {
             if(isTie)
             {
-                Console.WriteLine($"Tie game! Both player and dealer have the same score! {player1.Score} to {player2.Score}");
+                Console.WriteLine($"Tie game! Both player and dealer have the same score! {humanPlayer.Score} to {dealer.Score}");
                 return;
             }
             
-            if (player1.Name == "Dealer")
+            if (humanPlayer.Score < dealer.Score)
             {
-                Console.WriteLine($"Dealer wins! {player2.Score} to {player1.Score}.");
+                Console.WriteLine($"Dealer wins! {dealer.Score} to {humanPlayer.Score}.");
                 return;
             }
             else
             {
-                Console.WriteLine($"You win! {player1.Score} to {player2.Score}.");
+                Console.WriteLine($"You win! {humanPlayer.Score} to {dealer.Score}.");
                 return;
             }
         }
 
-        private void CheckScores(Player player, Player dealer)
+        private void CheckScores(HumanPlayer player, Dealer dealer)
         {
             if (player.Score == dealer.Score)
             {
                 DeclareWinner(player, dealer, true);
             } 
-            else if (player.Score > dealer.Score)
-            {
-                DeclareWinner(player, dealer);
-            }
             else
             {
-                DeclareWinner(dealer, player);
+                DeclareWinner(player, dealer);
             }
         }
 
