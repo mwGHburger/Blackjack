@@ -5,9 +5,9 @@ namespace Blackjack
 {
     public class Player
     {
-        public Player(string name)
+        public Player()
         {
-            this.Name = name;
+            this.Name = "You";
             this.CardHand = new List<Card>();
             this.Score = 0;
         }
@@ -15,7 +15,7 @@ namespace Blackjack
         public string Name
         {
             get; 
-            private set;
+            protected set;
         }
 
         public List<Card> CardHand
@@ -68,6 +68,24 @@ namespace Blackjack
         public void AddCardToHand(Card card)
         {
             this.CardHand.Add(card);
+        }
+
+        public virtual void BeginTurn(Deck cardDeck)
+        {
+            while (Score < BlackJack.BUSTNUMBER)
+            {
+                Console.WriteLine($"You are currently at {Score}\nwith the hand {GetCurrentHand()}\n");
+                Console.Write("Hit or stay? (Hit = 1, Stay = 0): ");
+                string playerInput = Console.ReadLine();
+                if (playerInput == "1")
+                {
+                    BlackJack.HitPlayer(this, cardDeck);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
     }

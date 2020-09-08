@@ -10,12 +10,11 @@ namespace Blackjack
         public void StartGame()
         {
             var cardDeck = new Deck();
-            Player player = new Player("You");
-            Player dealer = new Player("Dealer");
-
+            Player player = new Player();
+            Player dealer = new Dealer();
             this.DealTwoCardsToEachPlayer(cardDeck, player, dealer);
             
-            this.BeginPlayerTurn(player, cardDeck);
+            player.BeginTurn(cardDeck);
 
             if (this.IsBust(player))
             {
@@ -23,7 +22,7 @@ namespace Blackjack
                 return;
             }
 
-            this.BeginDealerTurn(dealer, cardDeck);
+            dealer.BeginTurn(cardDeck);
 
             if(this.IsBust(dealer))
             {
@@ -48,43 +47,7 @@ namespace Blackjack
             }
         }
 
-        private void BeginPlayerTurn(Player player, Deck cardDeck)
-        {
-            while (player.Score < BUSTNUMBER)
-            {
-                Console.WriteLine($"You are currently at {player.Score}\nwith the hand {player.GetCurrentHand()}\n");
-                Console.Write("Hit or stay? (Hit = 1, Stay = 0): ");
-                string playerInput = Console.ReadLine();
-                if (playerInput == "1")
-                {
-                    HitPlayer(player, cardDeck);
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-
-        private void BeginDealerTurn(Player player, Deck cardDeck)
-        {
-            while (player.Score < BUSTNUMBER)
-            {
-                Console.WriteLine($"{player.Name} is at {player.Score}\nwith the hand {player.GetCurrentHand()}\n");
-                if (player.Score < 17)
-                {
-                    System.Console.WriteLine("Dealer hits...");
-                    HitPlayer(player, cardDeck);
-                }
-                else
-                {
-                    System.Console.WriteLine($"{player.Name} can decide to stay...\n");
-                    break;
-                }
-            }
-        }
-
-        private void HitPlayer(Player player, Deck cardDeck)
+        public static void HitPlayer(Player player, Deck cardDeck)
         {
             int positionInDeck = cardDeck.PickRandomCardFromDeck();
             cardDeck.DealCardTo(player, positionInDeck);
@@ -147,11 +110,10 @@ namespace Blackjack
             }
         }
 
-        private void DisplayCardDrawn(Player player, Deck cardDeck, int positionInDeck)
+        private static void DisplayCardDrawn(Player player, Deck cardDeck, int positionInDeck)
         {
             System.Console.WriteLine($"{player.Name} draw [{cardDeck.Cards[positionInDeck].Rank}, '{cardDeck.Cards[positionInDeck].Suit}']\n");
         }
-
-        private const int BUSTNUMBER = 21;
+        public const int BUSTNUMBER = 21;
     }
 }
