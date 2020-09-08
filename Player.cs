@@ -70,7 +70,7 @@ namespace Blackjack
             this.CardHand.Add(card);
         }
 
-        public virtual void BeginTurn(Deck cardDeck)
+        public virtual void PlayTurn(Deck cardDeck)
         {
             while (Score < BlackJack.BUSTNUMBER)
             {

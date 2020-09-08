@@ -58,7 +58,6 @@ namespace Blackjack
                     cardDeck.Add(new Card(rank, suit));
                 }
             }
-            
             return cardDeck;
         }
 

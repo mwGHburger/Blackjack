@@ -9,7 +9,7 @@ namespace Blackjack
             Name = "Dealer";
         }
 
-        public override void BeginTurn(Deck cardDeck)
+        public override void PlayTurn(Deck cardDeck)
         {
             while (Score < BlackJack.BUSTNUMBER)
             {
@@ -21,7 +21,7 @@ namespace Blackjack
                 }
                 else
                 {
-                    System.Console.WriteLine($"{Name} can decide to stay...\n");
+                    System.Console.WriteLine($"{Name} decided to stay...\n");
                     break;
                 }
             }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Blackjack
 {
@@ -10,27 +11,22 @@ namespace Blackjack
         public void StartGame()
         {
             var cardDeck = new Deck();
-            Player player = new Player();
-            Player dealer = new Dealer();
-            this.DealTwoCardsToEachPlayer(cardDeck, player, dealer);
-            
-            player.BeginTurn(cardDeck);
-
-            if (this.IsBust(player))
+            var playerList = new List<Player>();
+            Player humanPlayer = new Player();
+            Dealer dealer = new Dealer();
+            playerList.Add(humanPlayer);
+            playerList.Add(dealer);
+            this.DealTwoCardsToEachPlayer(cardDeck, humanPlayer, dealer);
+            foreach(Player player in playerList)
             {
-                DeclareWinnerFromBust(player);
-                return;
+                player.PlayTurn(cardDeck);
+                if (this.IsBust(player))
+                {
+                    DeclareWinnerFromBust(player);
+                    return;
+                }
             }
-
-            dealer.BeginTurn(cardDeck);
-
-            if(this.IsBust(dealer))
-            {
-                DeclareWinnerFromBust(dealer);
-                return;
-            }
-
-            this.CheckScores(player, dealer);
+            this.CheckScores(humanPlayer, dealer);
         }
 
         private void DealTwoCardsToEachPlayer(Deck cardDeck, Player player, Player dealer)
