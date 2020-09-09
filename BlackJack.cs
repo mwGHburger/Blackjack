@@ -11,11 +11,10 @@ namespace Blackjack
         public void StartGame()
         {
             var cardDeck = new Deck();
-            var playerList = new List<Player>();
             HumanPlayer humanPlayer = new HumanPlayer();
             Dealer dealer = new Dealer();
-            playerList.Add(humanPlayer);
-            playerList.Add(dealer);
+            var playerList = CreatePlayerList(humanPlayer, dealer);
+
             this.DealTwoCardsToEachPlayer(cardDeck, humanPlayer, dealer);
             foreach(Player player in playerList)
             {
@@ -41,6 +40,15 @@ namespace Blackjack
                 cardDeck.DealCardTo(dealer, positionInDeck2);
                 cardDeck.Cards.RemoveAt(positionInDeck2);
             }
+        }
+
+        private static List<Player> CreatePlayerList(HumanPlayer humanPlayer, Dealer dealer)
+        {
+            return new List<Player>()
+            {
+                humanPlayer,
+                dealer
+            };
         }
 
         public static void HitPlayer(Player player, Deck cardDeck)
