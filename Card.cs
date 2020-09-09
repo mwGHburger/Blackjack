@@ -12,30 +12,30 @@ namespace Blackjack
         public string Rank { get; private set; }
         public string Suit { get; private set; }
 
-        private static bool CardIsRoyal(Card card)
+        private bool CardIsRoyal()
         {
-            return card.Rank == ("JACK") || card.Rank == ("QUEEN") || card.Rank == ("KING");
+            return this.Rank == ("JACK") || this.Rank == ("QUEEN") || this.Rank == ("KING");
         }
 
-        private static bool CardIsAce(Card card)
+        private bool CardIsAce()
         {
-            return card.Rank == ("ACE");
+            return this.Rank == ("ACE");
         }
 
-        public static int DetermineCardValue(Card card, int total)
+        public int DetermineCardValue(int total)
         {
             int cardValue = 0;
-            if (CardIsRoyal(card))
+            if (CardIsRoyal())
             {
                 cardValue += 10;
             }
-            else if (CardIsAce(card))
+            else if (CardIsAce())
             {
                 cardValue += total < 11 ? 11 : 1;
             }
             else
             {
-                cardValue += Convert.ToInt32(card.Rank);
+                cardValue += Convert.ToInt32(this.Rank);
             }
             
             return cardValue;

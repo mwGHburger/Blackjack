@@ -24,12 +24,8 @@ namespace Blackjack
 
         public int Score
         {
-            get 
-            {
-                return CalculateScore();
-            }
-
-            private set{}
+            get;
+            private set;
         }
 
         public string GetCurrentHand()
@@ -42,7 +38,7 @@ namespace Blackjack
             string currentHand = $"[{string.Join(",", cardList)}]";
             return currentHand;
         }
-        public int CalculateScore()
+        public void CalculateScore()
         {
             int total = 0;
             List<Card> aceTracker = new List<Card>();
@@ -54,14 +50,14 @@ namespace Blackjack
                 }
                 else
                 {
-                    total += Card.DetermineCardValue(card, total);
+                    total += card.DetermineCardValue(total);
                 }
             }
             foreach(Card ace in aceTracker)
             {
-                total += Card.DetermineCardValue(ace, total);
+                total += ace.DetermineCardValue(total);
             }
-            return total;
+            this.Score = total;
         }
 
         public void AddCardToHand(Card card)

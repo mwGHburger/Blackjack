@@ -64,11 +64,12 @@ namespace Blackjack
         public void DealCardTo(Player player, int positionInDeck)
         {
             player.AddCardToHand(this.Cards[positionInDeck]);
+            player.CalculateScore();
         }
 
         public int PickRandomCardFromDeck()
         {
-            Random rnd = new Random(); // TODO: CAN PROBABLY MOVE THIS OUT
+            Random rnd = new Random();
 
             int positionInDeck = PickRandomCard(this.Size, rnd);
             return positionInDeck;
